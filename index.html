@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChennaiEats - Restaurants</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-orange: #ff7e00;
+            --dark-text: #151c25;
+            --medium-text: #584235;
+            --light-bg: #f8f9ff;
+            --border-color: #dce3f0;
+            --brand-brown: #974800;
+            --rating-green: #15803d;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: #ffffff;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background-color: var(--light-bg);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 12px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+        }
+
+        .brand-section {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--brand-brown);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .search-bar {
+            background-color: #eef4ff;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            padding: 18px 17px 18px 49px;
+            width: 320px;
+            font-size: 16px;
+            color: var(--medium-text);
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .search-bar::before {
+            content: '🔍';
+            position: absolute;
+            left: 16px;
+            font-size: 18px;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            font-size: 16px;
+            color: var(--medium-text);
+            outline: none;
+        }
+
+        .search-bar input::placeholder {
+            color: var(--medium-text);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--medium-text);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-orange);
+        }
+
+        .cart-btn {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+            transition: background-color 0.3s;
+        }
+
+        .cart-btn:hover {
+            background-color: #e67e00;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 40px;
+            gap: 24px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header & Sorting Section */
+        .header-section {
+            display: flex;
+            items-align: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .title-section h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .title-section p {
+            font-size: 16px;
+            color: var(--medium-text);
+        }
+
+        .sort-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-label {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: var(--medium-text);
+            padding-right: 8px;
+        }
+
+        .sort-chip {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-color);
+            background-color: #eef4ff;
+            color: var(--medium-text);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .sort-chip.active {
+            background-color: var(--primary-orange);
+            color: white;
+            border: 1px solid var(--primary-orange);
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .sort-chip:hover {
+            background-color: var(--primary-orange);
+            color: white;
+            border: 1px solid var(--primary-orange);
+        }
+
+        /* Layout Container */
+        .layout-container {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        /* ===== SIDEBAR (FILTERS) ===== */
+        .sidebar {
+            background-color: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            width: 256px;
+            flex-shrink: 0;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .filter-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .clear-all {
+            background: none;
+            border: none;
+            color: var(--primary-orange);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: opacity 0.3s;
+        }
+
+        .clear-all:hover {
+            opacity: 0.8;
+        }
+
+        .filter-category {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+        }
+
+        .filter-category:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .filter-category h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 16px;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .filter-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #8b7263;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .checkbox::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .filter-item input[type="checkbox"]:checked + .checkbox {
+            background-color: var(--primary-orange);
+            border-color: var(--primary-orange);
+        }
+
+        .filter-item input[type="checkbox"]:checked + .checkbox::after {
+            opacity: 1;
+        }
+
+        .filter-item input[type="checkbox"],
+        .filter-item input[type="radio"] {
+            display: none;
+        }
+
+        .filter-label {
+            font-size: 16px;
+            color: var(--dark-text);
+            cursor: pointer;
+        }
+
+        .show-more {
+            color: var(--primary-orange);
+            font-size: 12px;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            margin-top: 8px;
+            transition: opacity 0.3s;
+        }
+
+        .show-more:hover {
+            opacity: 0.8;
+        }
+
+        /* ===== RESTAURANT GRID ===== */
+        .restaurant-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .restaurant-card {
+            background-color: var(--light-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-image-container {
+            position: relative;
+            height: 192px;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-promo {
+            position: absolute;
+            bottom: 12px;
+            left: 16px;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            padding: 0;
+            z-index: 2;
+        }
+
+        .card-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+            pointer-events: none;
+        }
+
+        .card-content {
+            padding: 16px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
+        .card-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dark-text);
+            flex: 1;
+        }
+
+        .rating-badge {
+            background-color: var(--rating-green);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .star {
+            font-size: 10px;
+        }
+
+        .card-cuisine {
+            font-size: 16px;
+            color: var(--medium-text);
+            margin-bottom: 12px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .card-footer {
+            border-top: 1px solid var(--border-color);
+            padding-top: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: var(--medium-text);
+        }
+
+        .meta-icon {
+            font-size: 14px;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: white;
+            border-top: 1px solid #dfc0af;
+            margin-top: 48px;
+        }
+
+        .footer-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 48px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 24px;
+        }
+
+        .footer-section h3 {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .footer-brand h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--brand-brown);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .footer-section a,
+        .footer-section p {
+            display: block;
+            font-size: 14px;
+            color: var(--medium-text);
+            text-decoration: none;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-orange);
+        }
+
+        /* ===== CONTACT FORM MODAL ===== */
+        .form-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-modal.active {
+            display: flex;
+        }
+
+        .form-content {
+            background-color: white;
+            border-radius: 16px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0px 10px 40px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-header {
+            margin-bottom: 32px;
+        }
+
+        .form-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .form-header p {
+            font-size: 16px;
+            color: var(--medium-text);
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--dark-text);
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+        }
+
+        .form-group input::placeholder {
+            color: var(--medium-text);
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 32px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-orange);
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #e67e00;
+        }
+
+        .btn-cancel {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-cancel:hover {
+            background-color: #e8ecf7;
+        }
+
+        .form-message {
+            display: none;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            display: block;
+        }
+
+        .form-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            display: block;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .layout-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            .restaurant-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 12px 20px;
+                flex-wrap: wrap;
+            }
+
+            .search-bar {
+                width: 100%;
+                order: 3;
+            }
+
+            .brand-section {
+                gap: 12px;
+            }
+
+            .nav-links {
+                gap: 12px;
+                font-size: 11px;
+            }
+
+            .main-container {
+                padding: 16px 20px;
+            }
+
+            .header-section {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .restaurant-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+            }
+
+            .cart-btn span {
+                display: none;
+            }
+
+            .footer-container {
+                grid-template-columns: 1fr;
+                padding: 32px 20px;
+            }
+
+            .form-content {
+                padding: 24px;
+                width: 95%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 12px 16px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .search-bar {
+                width: 100%;
+            }
+
+            .title-section h1 {
+                font-size: 24px;
+            }
+
+            .restaurant-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-image-container {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-container">
+            <div class="brand-section">
+                <a href="#" class="logo">ChennaiEats</a>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for restaurants, cuisine...">
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#">OFFERS</a>
+                <a href="#">HELP</a>
+                <a href="javascript:openFormModal()" style="cursor: pointer;">SIGN IN</a>
+            </div>
+            <button class="cart-btn">🛒 <span>Cart</span></button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-container">
+        <!-- HEADER SECTION WITH SORTING -->
+        <div class="header-section">
+            <div class="title-section">
+                <h1>Restaurants in Chennai</h1>
+                <p>Showing 45 high-quality dining options</p>
+            </div>
+            <div class="sort-section">
+                <span class="sort-label">SORT BY</span>
+                <button class="sort-chip active">Popularity ↓</button>
+                <button class="sort-chip">Rating</button>
+                <button class="sort-chip">Cost</button>
+            </div>
+        </div>
+
+        <!-- LAYOUT: SIDEBAR + GRID -->
+        <div class="layout-container">
+            <!-- SIDEBAR FILTERS -->
+            <aside class="sidebar">
+                <div class="filter-header">
+                    <h2>Filters</h2>
+                    <button class="clear-all">Clear All</button>
+                </div>
+
+                <!-- RATING FILTER -->
+                <div class="filter-category">
+                    <h3>Rating</h3>
+                    <div class="filter-item">
+                        <input type="checkbox" id="rating1">
+                        <div class="checkbox"></div>
+                        <label for="rating1" class="filter-label">Ratings 4.0+</label>
+                    </div>
+                </div>
+
+                <!-- DELIVERY TIME FILTER -->
+                <div class="filter-category">
+                    <h3>Delivery Time</h3>
+                    <div class="filter-item">
+                        <input type="radio" name="delivery" id="delivery1">
+                        <div class="checkbox"></div>
+                        <label for="delivery1" class="filter-label">Any Time</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="delivery" id="delivery2">
+                        <div class="checkbox"></div>
+                        <label for="delivery2" class="filter-label">Under 30 min</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="delivery" id="delivery3">
+                        <div class="checkbox"></div>
+                        <label for="delivery3" class="filter-label">Under 45 min</label>
+                    </div>
+                </div>
+
+                <!-- CUISINES FILTER -->
+                <div class="filter-category">
+                    <h3>Cuisines</h3>
+                    <div class="filter-item">
+                        <input type="checkbox" id="cuisine1">
+                        <div class="checkbox"></div>
+                        <label for="cuisine1" class="filter-label">North Indian</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="cuisine2">
+                        <div class="checkbox"></div>
+                        <label for="cuisine2" class="filter-label">South Indian</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="cuisine3">
+                        <div class="checkbox"></div>
+                        <label for="cuisine3" class="filter-label">Chinese</label>
+                    </div>
+                    <button class="show-more">Show more</button>
+                </div>
+
+                <!-- COST FILTER -->
+                <div class="filter-category">
+                    <h3>Cost for two</h3>
+                    <div class="filter-item">
+                        <input type="checkbox" id="cost1">
+                        <div class="checkbox"></div>
+                        <label for="cost1" class="filter-label">₹300 - ₹500</label>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- RESTAURANT GRID -->
+            <div class="restaurant-grid">
+                <!-- CARD 1 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1589301760014-d929fb3b6f76?w=400&h=300&fit=crop" alt="The Royal Kitchen" class="card-image">
+                        <div class="card-gradient"></div>
+                        <div class="card-promo">50% OFF</div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-name">The Royal Kitchen</div>
+                                <div class="rating-badge"><span class="star">★</span> 4.2</div>
+                            </div>
+                            <div class="card-cuisine">North Indian, Mughlai, Biryani</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-meta"><span class="meta-icon">⏱</span> 30-40 min</div>
+                            <div class="card-meta"><span class="meta-icon">₹</span> ₹200 for one</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1585521537614-d5e4a0b20c79?w=400&h=300&fit=crop" alt="Dakshin Delights" class="card-image">
+                        <div class="card-gradient"></div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-name">Dakshin Delights</div>
+                                <div class="rating-badge"><span class="star">★</span> 4.5</div>
+                            </div>
+                            <div class="card-cuisine">South Indian, Breakfast, Beverages</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-meta"><span class="meta-icon">⏱</span> 25-35 min</div>
+                            <div class="card-meta"><span class="meta-icon">₹</span> ₹150 for one</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a104?w=400&h=300&fit=crop" alt="Wok & Toss" class="card-image">
+                        <div class="card-gradient"></div>
+                        <div class="card-promo">FREE DELIVERY</div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-name">Wok & Toss</div>
+                                <div class="rating-badge"><span class="star">★</span> 3.9</div>
+                            </div>
+                            <div class="card-cuisine">Chinese, Asian, Fast Food</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-meta"><span class="meta-icon">⏱</span> 45-55 min</div>
+                            <div class="card-meta"><span class="meta-icon">₹</span> ₹250 for one</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop" alt="Spice Garden" class="card-image">
+                        <div class="card-gradient"></div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-name">Spice Garden</div>
+                                <div class="rating-badge"><span class="star">★</span> 4.3</div>
+                            </div>
+                            <div class="card-cuisine">Indian, Continental, Tandoori</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-meta"><span class="meta-icon">⏱</span> 35-45 min</div>
+                            <div class="card-meta"><span class="meta-icon">₹</span> ₹300 for one</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop" alt="Pasta Palace" class="card-image">
+                        <div class="card-gradient"></div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-name">Pasta Palace</div>
+                                <div class="rating-badge"><span class="star">★</span> 4.1</div>
+                            </div>
+                            <div class="card-cuisine">Italian, Continental, European</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-meta"><span class="meta-icon">⏱</span> 40-50 min</div>
+                            <div class="card-meta"><span class="meta-icon">₹</span> ₹400 for one</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 6 -->
+                <div class="restaurant-card">
+                    <div class="card-image-container">
+                        <img src="https://images.unsplash.com/photo-1574080532304-70f8a5a4e4ae?w=400&h=300&fit=crop" alt="Sushi Central" class="card-image">
+                        <div class="card-gradient"></div>
+                        <div class="card-promo">₹100 OFF</div>
+                    </div>
+                    <div class="card-content">
+                        <div>
+                            <div class="card-header">
+                                <div class="card-name">Sushi Central</div>
+                                <div class="rating-badge"><span class="star">★</span> 4.6</div>
+                            </div>
+                            <div class="card-cuisine">Japanese, Sushi, Asian</div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="card-meta"><span class="meta-icon">⏱</span> 50-60 min</div>
+                            <div class="card-meta"><span class="meta-icon">₹</span> ₹600 for one</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section footer-brand">
+                <h3>ChennaiEats</h3>
+                <p>Delivering happiness to your doorstep, one meal at a time.</p>
+                <p>© 2024 ChennaiEats. All rights reserved.</p>
+            </div>
+            <div class="footer-section">
+                <h3>COMPANY</h3>
+                <a href="#">About Us</a>
+                <a href="#">Partner with Us</a>
+                <a href="#">Careers</a>
+            </div>
+            <div class="footer-section">
+                <h3>LEGAL</h3>
+                <a href="#">Terms of Service</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+            <div class="footer-section">
+                <h3>SUPPORT</h3>
+                <a href="#">Help Center</a>
+                <a href="#">Contact Support</a>
+                <a href="#">Feedback</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FORM MODAL -->
+    <div class="form-modal" id="formModal">
+        <div class="form-content">
+            <div class="form-header">
+                <h2>Get in Touch</h2>
+                <p>Join our community and stay updated with latest offers</p>
+            </div>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="formName">Full Name *</label>
+                    <input type="text" id="formName" name="name" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="formEmail">Email Address *</label>
+                    <input type="email" id="formEmail" name="email" placeholder="your.email@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="formPhone">Phone Number *</label>
+                    <input type="tel" id="formPhone" name="phone" placeholder="+91 9876543210" required>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn btn-cancel" onclick="closeFormModal()">Cancel</button>
+                    <button type="submit" class="btn btn-submit">Submit</button>
+                </div>
+                <div class="form-message" id="formMessage"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3z4iUhCrgJyTX218_SuoWUHaITFOMxugIUP6P8dYaG_-zWiyoLfHuZu_LNXqxDg0t/exec";
+
+        function openFormModal() {
+            document.getElementById("formModal").classList.add("active");
+        }
+
+        function closeFormModal() {
+            document.getElementById("formModal").classList.remove("active");
+            document.getElementById("contactForm").reset();
+            document.getElementById("formMessage").className = "form-message";
+            document.getElementById("formMessage").textContent = "";
+        }
+
+        document.getElementById("contactForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById("formName").value.trim();
+            const email = document.getElementById("formEmail").value.trim();
+            const phone = document.getElementById("formPhone").value.trim();
+
+            if (!name || !email || !phone) {
+                showMessage("Please fill in all fields", "error");
+                return;
+            }
+
+            try {
+                const params = new URLSearchParams({
+                    name: name,
+                    email: email,
+                    phone: phone
+                });
+
+                const url = SCRIPT_URL + "?" + params.toString();
+
+                fetch(url, {
+                    method: "GET",
+                    mode: "no-cors"
+                });
+
+                showMessage("Thank you! Your information has been saved successfully.", "success");
+                
+                setTimeout(() => {
+                    closeFormModal();
+                }, 2000);
+
+            } catch (error) {
+                showMessage("An error occurred. Please try again.", "error");
+            }
+        });
+
+        function showMessage(text, type) {
+            const messageEl = document.getElementById("formMessage");
+            messageEl.textContent = text;
+            messageEl.className = "form-message " + type;
+        }
+
+        // Close modal when clicking outside
+        document.getElementById("formModal").addEventListener("click", function(e) {
+            if (e.target === this) {
+                closeFormModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeFormModal();
+            }
+        });
+    </script>
+</body>
+</html>
