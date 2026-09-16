@@ -1,0 +1,1080 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Chennai Food Delivery</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<header class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">
+            <i class="fa-solid fa-utensils"></i>
+        </div>
+
+        <div>
+            <h2>Chennai</h2>
+            <span>Food Delivery</span>
+        </div>
+    </div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#restaurants">Restaurants</a>
+        <a href="#categories">Categories</a>
+        <a href="#offers">Offers</a>
+    </nav>
+
+    <div class="nav-actions">
+
+        <button class="location-btn">
+            <i class="fa-solid fa-location-dot"></i>
+            Chennai
+        </button>
+
+        <button class="cart-btn" onclick="openCart()">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span id="cartCount">0</span>
+        </button>
+
+        <button class="login-btn" onclick="openLogin()">
+            Login
+        </button>
+
+    </div>
+
+    <button class="menu-btn" onclick="toggleMobileMenu()">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+</header>
+
+
+<!-- ================= MOBILE MENU ================= -->
+
+<div class="mobile-menu" id="mobileMenu">
+
+    <a href="#home">Home</a>
+    <a href="#restaurants">Restaurants</a>
+    <a href="#categories">Categories</a>
+    <a href="#offers">Offers</a>
+
+</div>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <span class="hero-tag">
+            <i class="fa-solid fa-bolt"></i>
+            Fast delivery across Chennai
+        </span>
+
+        <h1>
+            Your favourite food,
+            <span>delivered fast.</span>
+        </h1>
+
+        <p>
+            Discover the best restaurants in Chennai and
+            enjoy delicious meals delivered straight to your doorstep.
+        </p>
+
+        <div class="search-box">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search for biryani, pizza, dosa..."
+                onkeyup="searchFood()"
+            >
+
+            <button onclick="searchFood()">
+                Search
+            </button>
+
+        </div>
+
+        <div class="hero-stats">
+
+            <div>
+                <strong>500+</strong>
+                <span>Restaurants</span>
+            </div>
+
+            <div>
+                <strong>10K+</strong>
+                <span>Happy Customers</span>
+            </div>
+
+            <div>
+                <strong>30 min</strong>
+                <span>Average Delivery</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-image">
+
+        <div class="delivery-card">
+
+            <div class="delivery-icon">
+                <i class="fa-solid fa-motorcycle"></i>
+            </div>
+
+            <div>
+                <strong>On the way!</strong>
+                <small>Your order is arriving</small>
+            </div>
+
+            <span class="delivery-time">
+                18 min
+            </span>
+
+        </div>
+
+        <div class="food-circle">
+            🍛
+        </div>
+
+        <div class="floating-food food-one">🍕</div>
+        <div class="floating-food food-two">🍔</div>
+        <div class="floating-food food-three">🥤</div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="section" id="categories">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="small-title">EXPLORE</span>
+            <h2>What's on your mind?</h2>
+        </div>
+
+        <div class="category-arrows">
+            <button onclick="scrollCategories(-1)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <button onclick="scrollCategories(1)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+    </div>
+
+
+    <div class="categories" id="categoryContainer">
+
+        <div class="category active" onclick="filterCategory('all')">
+            <div class="category-icon">🍽️</div>
+            <span>All</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('biryani')">
+            <div class="category-icon">🍛</div>
+            <span>Biryani</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('south-indian')">
+            <div class="category-icon">🥞</div>
+            <span>South Indian</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('pizza')">
+            <div class="category-icon">🍕</div>
+            <span>Pizza</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('burger')">
+            <div class="category-icon">🍔</div>
+            <span>Burgers</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('chinese')">
+            <div class="category-icon">🥡</div>
+            <span>Chinese</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('dessert')">
+            <div class="category-icon">🍰</div>
+            <span>Desserts</span>
+        </div>
+
+        <div class="category" onclick="filterCategory('drinks')">
+            <div class="category-icon">🥤</div>
+            <span>Drinks</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RESTAURANTS ================= -->
+
+<section class="section restaurants-section" id="restaurants">
+
+    <div class="section-heading">
+
+        <div>
+            <span class="small-title">TOP PICKS</span>
+            <h2>Popular restaurants</h2>
+        </div>
+
+        <button class="view-all" onclick="showAllRestaurants()">
+            View all
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+
+    </div>
+
+
+    <div class="restaurant-grid" id="restaurantGrid">
+
+
+        <!-- Restaurant 1 -->
+
+        <article class="restaurant-card"
+                 data-category="biryani">
+
+            <div class="restaurant-image biryani-bg">
+
+                <span class="discount">
+                    30% OFF
+                </span>
+
+                <button class="favorite"
+                        onclick="toggleFavorite(this)">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <div class="restaurant-emoji">
+                    🍛
+                </div>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <div class="restaurant-title">
+
+                    <h3>Chennai Biryani House</h3>
+
+                    <span class="rating">
+                        ★ 4.7
+                    </span>
+
+                </div>
+
+                <p>
+                    Biryani • Indian • Mughlai
+                </p>
+
+                <div class="restaurant-meta">
+
+                    <span>
+                        <i class="fa-solid fa-clock"></i>
+                        25-30 min
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        ₹250 for two
+                    </span>
+
+                </div>
+
+                <button class="menu-button"
+                        onclick="viewMenu('Chennai Biryani House')">
+                    View Menu
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- Restaurant 2 -->
+
+        <article class="restaurant-card"
+                 data-category="south-indian">
+
+            <div class="restaurant-image dosa-bg">
+
+                <span class="discount">
+                    FREE DELIVERY
+                </span>
+
+                <button class="favorite"
+                        onclick="toggleFavorite(this)">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <div class="restaurant-emoji">
+                    🥞
+                </div>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <div class="restaurant-title">
+
+                    <h3>Madras Tiffin Corner</h3>
+
+                    <span class="rating">
+                        ★ 4.8
+                    </span>
+
+                </div>
+
+                <p>
+                    South Indian • Breakfast
+                </p>
+
+                <div class="restaurant-meta">
+
+                    <span>
+                        <i class="fa-solid fa-clock"></i>
+                        20-25 min
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        ₹180 for two
+                    </span>
+
+                </div>
+
+                <button class="menu-button"
+                        onclick="viewMenu('Madras Tiffin Corner')">
+                    View Menu
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- Restaurant 3 -->
+
+        <article class="restaurant-card"
+                 data-category="pizza">
+
+            <div class="restaurant-image pizza-bg">
+
+                <span class="discount">
+                    20% OFF
+                </span>
+
+                <button class="favorite"
+                        onclick="toggleFavorite(this)">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <div class="restaurant-emoji">
+                    🍕
+
+                </div>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <div class="restaurant-title">
+
+                    <h3>Marina Pizza</h3>
+
+                    <span class="rating">
+                        ★ 4.5
+                    </span>
+
+                </div>
+
+                <p>
+                    Pizza • Italian • Fast Food
+                </p>
+
+                <div class="restaurant-meta">
+
+                    <span>
+                        <i class="fa-solid fa-clock"></i>
+                        30-35 min
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        ₹400 for two
+                    </span>
+
+                </div>
+
+                <button class="menu-button"
+                        onclick="viewMenu('Marina Pizza')">
+                    View Menu
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- Restaurant 4 -->
+
+        <article class="restaurant-card"
+                 data-category="burger">
+
+            <div class="restaurant-image burger-bg">
+
+                <span class="discount">
+                    25% OFF
+                </span>
+
+                <button class="favorite"
+                        onclick="toggleFavorite(this)">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <div class="restaurant-emoji">
+                    🍔
+                </div>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <div class="restaurant-title">
+
+                    <h3>Anna Nagar Burgers</h3>
+
+                    <span class="rating">
+                        ★ 4.6
+                    </span>
+
+                </div>
+
+                <p>
+                    Burgers • American • Fast Food
+                </p>
+
+                <div class="restaurant-meta">
+
+                    <span>
+                        <i class="fa-solid fa-clock"></i>
+                        25-30 min
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        ₹350 for two
+                    </span>
+
+                </div>
+
+                <button class="menu-button"
+                        onclick="viewMenu('Anna Nagar Burgers')">
+                    View Menu
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- Restaurant 5 -->
+
+        <article class="restaurant-card"
+                 data-category="chinese">
+
+            <div class="restaurant-image chinese-bg">
+
+                <span class="discount">
+                    15% OFF
+                </span>
+
+                <button class="favorite"
+                        onclick="toggleFavorite(this)">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <div class="restaurant-emoji">
+                    🥡
+                </div>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <div class="restaurant-title">
+
+                    <h3>Chopsticks Chennai</h3>
+
+                    <span class="rating">
+                        ★ 4.4
+                    </span>
+
+                </div>
+
+                <p>
+                    Chinese • Asian • Noodles
+                </p>
+
+                <div class="restaurant-meta">
+
+                    <span>
+                        <i class="fa-solid fa-clock"></i>
+                        30-35 min
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        ₹450 for two
+                    </span>
+
+                </div>
+
+                <button class="menu-button"
+                        onclick="viewMenu('Chopsticks Chennai')">
+                    View Menu
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- Restaurant 6 -->
+
+        <article class="restaurant-card"
+                 data-category="dessert">
+
+            <div class="restaurant-image dessert-bg">
+
+                <span class="discount">
+                    10% OFF
+                </span>
+
+                <button class="favorite"
+                        onclick="toggleFavorite(this)">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+
+                <div class="restaurant-emoji">
+                    🍰
+                </div>
+
+            </div>
+
+            <div class="restaurant-info">
+
+                <div class="restaurant-title">
+
+                    <h3>Marina Sweet Treats</h3>
+
+                    <span class="rating">
+                        ★ 4.9
+                    </span>
+
+                </div>
+
+                <p>
+                    Desserts • Cakes • Ice Cream
+                </p>
+
+                <div class="restaurant-meta">
+
+                    <span>
+                        <i class="fa-solid fa-clock"></i>
+                        20-25 min
+                    </span>
+
+                    <span>
+                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                        ₹300 for two
+                    </span>
+
+                </div>
+
+                <button class="menu-button"
+                        onclick="viewMenu('Marina Sweet Treats')">
+                    View Menu
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- ================= OFFER BANNER ================= -->
+
+<section class="offer-section" id="offers">
+
+    <div class="offer-content">
+
+        <span>LIMITED TIME OFFER</span>
+
+        <h2>
+            Get ₹150 OFF<br>
+            on your first order!
+        </h2>
+
+        <p>
+            Use coupon code
+            <strong>CHENNAI150</strong>
+        </p>
+
+        <button onclick="copyCoupon()">
+            Copy Coupon
+        </button>
+
+    </div>
+
+    <div class="offer-food">
+        🍱
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features">
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            <i class="fa-solid fa-truck-fast"></i>
+        </div>
+
+        <div>
+            <h3>Lightning Fast</h3>
+            <p>Fresh food delivered quickly.</p>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            <i class="fa-solid fa-shield-heart"></i>
+        </div>
+
+        <div>
+            <h3>Safe & Hygienic</h3>
+            <p>Quality food from trusted restaurants.</p>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            <i class="fa-solid fa-tags"></i>
+        </div>
+
+        <div>
+            <h3>Best Offers</h3>
+            <p>Save more on every order.</p>
+        </div>
+
+    </div>
+
+
+    <div class="feature">
+
+        <div class="feature-icon">
+            <i class="fa-solid fa-headset"></i>
+        </div>
+
+        <div>
+            <h3>24/7 Support</h3>
+            <p>We are always here to help.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <div class="footer-brand">
+
+            <div class="logo">
+
+                <div class="logo-icon">
+                    <i class="fa-solid fa-utensils"></i>
+                </div>
+
+                <div>
+                    <h2>Chennai</h2>
+                    <span>Food Delivery</span>
+                </div>
+
+            </div>
+
+            <p>
+                Bringing Chennai's favourite flavours
+                right to your doorstep.
+            </p>
+
+            <div class="social-icons">
+
+                <a href="#">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+                <a href="#">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Company</h4>
+
+            <a href="#">About Us</a>
+            <a href="#">Careers</a>
+            <a href="#">Contact</a>
+            <a href="#">Partner With Us</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Help</h4>
+
+            <a href="#">FAQs</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+            <a href="#">Refund Policy</a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Popular Areas</h4>
+
+            <a href="#">Anna Nagar</a>
+            <a href="#">T. Nagar</a>
+            <a href="#">Adyar</a>
+            <a href="#">Velachery</a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        © 2026 Chennai Food Delivery. All rights reserved.
+    </div>
+
+</footer>
+
+
+<!-- ================= CART SIDEBAR ================= -->
+
+<div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+<div class="cart-sidebar" id="cartSidebar">
+
+    <div class="cart-header">
+
+        <h2>
+            <i class="fa-solid fa-bag-shopping"></i>
+            Your Cart
+        </h2>
+
+        <button onclick="closeCart()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+    </div>
+
+
+    <div class="cart-items" id="cartItems">
+
+        <div class="empty-cart">
+
+            <div class="empty-cart-icon">
+                🛒
+            </div>
+
+            <h3>Your cart is empty</h3>
+
+            <p>
+                Add some delicious food to get started.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="cart-footer">
+
+        <div class="bill-row">
+            <span>Subtotal</span>
+            <strong id="subtotal">₹0</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Delivery Fee</span>
+            <strong id="deliveryFee">₹40</strong>
+        </div>
+
+        <div class="bill-row">
+            <span>Taxes</span>
+            <strong id="tax">₹0</strong>
+        </div>
+
+        <div class="total-row">
+            <span>Total</span>
+            <strong id="total">₹40</strong>
+        </div>
+
+        <button class="checkout-btn"
+                onclick="openCheckout()">
+            Proceed to Checkout
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MENU MODAL ================= -->
+
+<div class="modal" id="menuModal">
+
+    <div class="modal-content menu-modal">
+
+        <button class="modal-close"
+                onclick="closeMenu()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+
+            <span class="small-title">
+                MENU
+            </span>
+
+            <h2 id="menuRestaurantName">
+                Restaurant
+            </h2>
+
+            <p>
+                Select your favourite dishes
+            </p>
+
+        </div>
+
+
+        <div class="food-menu" id="foodMenu">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= CHECKOUT MODAL ================= -->
+
+<div class="modal" id="checkoutModal">
+
+    <div class="modal-content checkout-modal">
+
+        <button class="modal-close"
+                onclick="closeCheckout()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="modal-header">
+
+            <span class="small-title">
+                CHECKOUT
+            </span>
+
+            <h2>Complete your order</h2>
+
+        </div>
+
+
+        <form onsubmit="placeOrder(event)">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="customerName"
+                placeholder="Enter your name"
+                required
+            >
+
+
+            <label>Phone Number</label>
+
+            <input
+                type="tel"
+                placeholder="Enter phone number"
+                required
+            >
+
+
+            <label>Delivery Address</label>
+
+            <textarea
+                placeholder="Enter your delivery address"
+                required
+            ></textarea>
+
+
+            <label>Payment Method</label>
+
+            <select required>
+
+                <option value="">
+                    Select payment method
+                </option>
+
+                <option>
+                    Cash on Delivery
+                </option>
+
+                <option>
+                    UPI
+                </option>
+
+                <option>
+                    Credit / Debit Card
+                </option>
+
+            </select>
+
+
+            <button class="checkout-btn"
+                    type="submit">
+                Place Order
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ================= LOGIN MODAL ================= -->
+
+<div class="modal" id="loginModal">
+
+    <div class="modal-content login-modal">
+
+        <button class="modal-close"
+                onclick="closeLogin()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="login-icon">
+            <i class="fa-solid fa-user"></i>
+        </div>
+
+        <h2>Welcome back!</h2>
+
+        <p>Login to continue ordering delicious food.</p>
+
+        <input
+            type="tel"
+            placeholder="Enter mobile number"
+        >
+
+        <button class="checkout-btn"
+                onclick="loginUser()">
+            Continue
+        </button>
+
+        <small>
+            By continuing, you agree to our Terms and Privacy Policy.
+        </small>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast">
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <span id="toastMessage">
+        Added to cart
+    </span>
+
+</div>
+
+
+<script src="js/script.js"></script>
+
+</body>
+</html>
+```
